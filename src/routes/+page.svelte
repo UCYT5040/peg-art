@@ -8,8 +8,6 @@
 	let pegHoles: (PegConfig | null)[] = $state([]);
 	let container: HTMLDivElement;
 
-	$inspect(pegHoles);
-
 	onMount(() => {
 		calculatePegHoles();
 		// Recalculate on window resize
