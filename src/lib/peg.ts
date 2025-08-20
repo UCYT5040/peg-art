@@ -1,4 +1,4 @@
-export const styles = ['rect', 'circle'];
+export const styles = ['rect', 'circle', 'triangle'];
 
 export const colors = [
 	'red',
