@@ -106,7 +106,7 @@
 <svelte:window onmousemove={mousemove} />
 
 <div class="flex h-screen w-full">
-	<div>
+	<div class="h-full overflow-y-auto p-2">
 		<h2 class="text-lg font-semibold">Pegs</h2>
 		{#each pegLibrary as row (row)}
 			<div class="flex gap-1">
@@ -144,11 +144,12 @@
 </div>
 
 {#if action}
-    <!-- Possibly move this to the script? -->
+	<!-- Possibly move this to the script? -->
 	{@const source = origin ? (origin === -1 ? librarySelection : pegHoles[origin]) : null}
 	{#if source}
-		<svg xmlns="http://www.w3.org/2000/svg"
-			class="pointer-events-none absolute w-12 h-12"
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			class="pointer-events-none absolute h-12 w-12"
 			style="left: {mousePosition[0]}px; top: {mousePosition[1]}px;"
 			viewBox="0 0 100 100"
 		>
