@@ -116,10 +116,6 @@
 		action = null;
 	}
 
-	function click(position: number, e: UIEvent) {
-		e.preventDefault(); // Only used to prevent context menu from opening when deleting
-	}
-
 	function mouseoverFocus(position: number, e: UIEvent) {
 		selection = position;
 	}
