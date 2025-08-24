@@ -96,6 +96,9 @@
 			action = null;
 			return;
 		}
+		if (position == origin) {
+			action = null; // Allows for cancelling moves
+		}
 		let source: PegConfig;
 		if (origin === -1) {
 			if (!librarySelection) return;
@@ -134,9 +137,14 @@
 		mousePosition[0] = e.clientX;
 		mousePosition[1] = e.clientY;
 	}
+
+	function cancelAction() {
+		action = null;
+		origin = null;
+	}
 </script>
 
-<svelte:window onmousemove={mousemove} />
+<svelte:window onmousemove={mousemove} onmouseup={cancelAction} />
 
 <div class="flex h-screen w-full" class:overflow-hidden={pendingResize}>
 	<div class="h-full overflow-y-auto p-2">
