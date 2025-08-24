@@ -161,7 +161,6 @@
 				{/each}
 			</div>
 		{/each}
-		<h3 class="text-md font-semibold">Recently used</h3>
 	</div>
 	<div
 		bind:this={container}
