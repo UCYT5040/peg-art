@@ -181,17 +181,27 @@
 </div>
 
 {#if action}
-	<!-- Possibly move this to the script? -->
-	{@const source = origin ? (origin === -1 ? librarySelection : pegHoles[origin]) : null}
-	{#if source}
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			class="pointer-events-none absolute h-12 w-12"
-			style="left: {mousePosition[0]}px; top: {mousePosition[1]}px;"
-			viewBox="0 0 100 100"
-		>
-			<Peg peg={source} />
-		</svg>
+    {#if action === "delete"}
+		{#if selection === origin}
+			<img src="/icons/trash.svg" alt="Trash can" class="absolute h-12 w-12 pointer-events-none"
+			style="left: {mousePosition[0]}px; top: {mousePosition[1]}px;" />
+		{:else}
+			<img src="/icons/trash-cancel.svg" alt="Cancel trash" class="absolute h-12 w-12 pointer-events-none"
+				style="left: {mousePosition[0]}px; top: {mousePosition[1]}px;" />
+		{/if}
+	{:else}
+		<!-- Possibly move this to the script? -->
+		{@const source = origin ? (origin === -1 ? librarySelection : pegHoles[origin]) : null}
+		{#if source}
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="pointer-events-none absolute h-12 w-12"
+				style="left: {mousePosition[0]}px; top: {mousePosition[1]}px;"
+				viewBox="0 0 100 100"
+			>
+				<Peg peg={source} />
+			</svg>
+		{/if}
 	{/if}
 {/if}
 
