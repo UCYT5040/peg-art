@@ -15,6 +15,9 @@
 		return () => window.removeEventListener('resize', calculatePegHoles);
 	});
 
+	let pendingResize: number | null = $state(null);
+	let currentSize: number | null = $state(null);
+
 	function calculatePegHoles() {
 		if (!container) return;
 
@@ -25,7 +28,27 @@
 		const rows = Math.floor(containerRect.height / pegHoleSize);
 
 		const totalPegHoles = cols * rows;
-		pegHoles = Array.from({ length: totalPegHoles }, () => null);
+
+		if (totalPegHoles === currentSize) {
+			pendingResize = null;
+		} else if (currentSize) {
+			pendingResize = totalPegHoles;
+		} else {
+			currentSize = totalPegHoles;
+			clear();
+		}
+	}
+
+	function clear() {
+		pegHoles = Array.from({ length: currentSize || 0 }, () => null);
+	}
+
+	function resize() {
+		if (pendingResize !== null) {
+			currentSize = pendingResize;
+			clear();
+			pendingResize = null;
+		}
 	}
 
 	let pegLibrary: PegConfig[][] = $state([]);
@@ -105,7 +128,7 @@
 
 <svelte:window onmousemove={mousemove} />
 
-<div class="flex h-screen w-full">
+<div class="flex h-screen w-full" class:overflow-hidden={pendingResize}>
 	<div class="h-full overflow-y-auto p-2">
 		<h2 class="text-lg font-semibold">Pegs</h2>
 		{#each pegLibrary as row (row)}
@@ -156,4 +179,20 @@
 			<Peg peg={source} />
 		</svg>
 	{/if}
+{/if}
+
+{#if pendingResize}
+	<div class="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-black/50">
+		<div class="flex flex-col gap-2 rounded bg-gray-900 p-4">
+			<h2>Resize Board?</h2>
+			<p>
+				Your screen size has changed. If you continue, the board will be resized and all pegs will
+				be cleared.
+			</p>
+			<button class="rounded bg-red-500 px-4 py-2 font-semibold text-white" onclick={resize}>
+				Resize Board
+			</button>
+			<p class="text-sm">Return to the previous screen size to keep the current board.</p>
+		</div>
+	</div>
 {/if}
