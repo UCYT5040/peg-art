@@ -23,6 +23,7 @@
 	let hovered = $state(false);
 
 	function handleEvent(handler: (position: number, e: events) => void, e: events) {
+		e.preventDefault();
 		handler(position, e);
 	}
 
