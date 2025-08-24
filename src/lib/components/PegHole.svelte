@@ -47,6 +47,7 @@
 	onmouseout={mouseoutBlur}
 	onfocus={mouseoverFocus}
 	onblur={mouseoutBlur}
+	oncontextmenu={(e) => e.preventDefault()}
 	role="button"
 	tabindex="0"
 >

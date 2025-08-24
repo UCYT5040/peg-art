@@ -61,7 +61,7 @@
 		pegLibrary.push(row);
 	}
 
-	let action: null | 'copy' | 'move' = $state(null);
+	let action: null | 'copy' | 'move' | 'delete' = $state(null);
 	let origin: null | number = $state(null); // -1 for library
 	let librarySelection: null | PegConfig = $state(null);
 	let selection: null | number = $state(null); // Represents the peghole under the mouse
@@ -74,18 +74,28 @@
 		origin = position;
 		// Left click = move
 		// Middle click = copy
+		// Right click = delete (immediate)
 		if (e.button === 0) {
 			action = 'move';
 		} else if (e.button === 1) {
 			action = 'copy';
+		} else if (e.button === 2) {
+            action = 'delete';
 		} else {
-			action = null;
+			action = null;		
 		}
 	}
 
 	function mouseUp(position: number, e: UIEvent) {
 		console.log('Mouse up');
+		e.preventDefault();
 		if (origin === null) return;
+		if (action == 'delete' &&
+			position === origin) { // If the user wants to cancel the delete, they can drag away
+			pegHoles[origin] = null;
+			action = null;
+			return;
+		}
 		let source: PegConfig;
 		if (origin === -1) {
 			if (!librarySelection) return;
@@ -104,6 +114,10 @@
 			pegHoles = pegHoles;
 		}
 		action = null;
+	}
+
+	function click(position: number, e: UIEvent) {
+		e.preventDefault(); // Only used to prevent context menu from opening when deleting
 	}
 
 	function mouseoverFocus(position: number, e: UIEvent) {
