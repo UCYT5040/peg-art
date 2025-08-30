@@ -80,9 +80,9 @@
 		} else if (e.button === 1) {
 			action = 'copy';
 		} else if (e.button === 2) {
-            action = 'delete';
+			action = 'delete';
 		} else {
-			action = null;		
+			action = null;
 		}
 	}
 
@@ -90,8 +90,8 @@
 		console.log('Mouse up');
 		e.preventDefault();
 		if (origin === null) return;
-		if (action == 'delete' &&
-			position === origin) { // If the user wants to cancel the delete, they can drag away
+		if (action == 'delete' && position === origin) {
+			// If the user wants to cancel the delete, they can drag away
 			pegHoles[origin] = null;
 			action = null;
 			return;
@@ -165,6 +165,15 @@
 				{/each}
 			</div>
 		{/each}
+		<h2 class="text-lg font-semibold">Controls</h2>
+		<p>
+			<strong>Left click</strong> - Move peg<br />
+			<strong>Middle click</strong> - Copy peg<br />
+			<strong>Right click</strong> - Delete peg
+		</p>
+		<p>
+			<small> Drag away from a peg to cancel deletion. </small>
+		</p>
 	</div>
 	<div
 		bind:this={container}
@@ -184,13 +193,21 @@
 </div>
 
 {#if action}
-    {#if action === "delete"}
+	{#if action === 'delete'}
 		{#if selection === origin}
-			<img src="/icons/trash.svg" alt="Trash can" class="absolute h-12 w-12 pointer-events-none"
-			style="left: {mousePosition[0]}px; top: {mousePosition[1]}px;" />
+			<img
+				src="/icons/trash.svg"
+				alt="Trash can"
+				class="pointer-events-none absolute h-12 w-12"
+				style="left: {mousePosition[0]}px; top: {mousePosition[1]}px;"
+			/>
 		{:else}
-			<img src="/icons/trash-cancel.svg" alt="Cancel trash" class="absolute h-12 w-12 pointer-events-none"
-				style="left: {mousePosition[0]}px; top: {mousePosition[1]}px;" />
+			<img
+				src="/icons/trash-cancel.svg"
+				alt="Cancel trash"
+				class="pointer-events-none absolute h-12 w-12"
+				style="left: {mousePosition[0]}px; top: {mousePosition[1]}px;"
+			/>
 		{/if}
 	{:else}
 		<!-- Possibly move this to the script? -->
